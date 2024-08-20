@@ -26,6 +26,7 @@ class Enemy(pg.sprite.Sprite):
             self.movement = self.target - self.pos
         else:
             # Enemy has reached the end of the path
+            print("Reached end")
             self.kill()
 
         # Calculate distance to target
