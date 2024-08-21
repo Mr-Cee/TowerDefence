@@ -120,6 +120,9 @@ while run:
             placing_turrets = False
 
 
+    #Update the display
+    pg.display.update()
+
     # Event handler
     for event in pg.event.get():
         #quit program
@@ -133,8 +136,7 @@ while run:
                 if placing_turrets == True:
                     create_turret(mouse_pos)
 
-    #Update the display
-    pg.display.update()
+
 
 
 pg.quit()
