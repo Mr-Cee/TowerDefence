@@ -124,7 +124,7 @@ ENEMY_DATA = {
         },
     "elite":
         {
-        "health": 30,
+        "health": 50,
         "speed": 6
         }
     }

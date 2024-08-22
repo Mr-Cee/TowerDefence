@@ -11,6 +11,8 @@ class Turret(pg.sprite.Sprite):
         self.upgrade_level = 1
         self.range = TURRET_DATA[self.upgrade_level - 1].get("range")
         self.cooldown = TURRET_DATA[self.upgrade_level - 1].get("cooldown")
+        self.damage = TURRET_DATA[self.upgrade_level - 1].get("damage")
+        self.upgrade_cost = TURRET_DATA[self.upgrade_level - 1].get("upgrade_cost")
         self.last_shot = pg.time.get_ticks()
         self.selected = False
         self.target = None
@@ -54,13 +56,13 @@ class Turret(pg.sprite.Sprite):
             animation_list.append(temp_img)
         return animation_list
 
-    def update(self, enemy_group):
+    def update(self, enemy_group, world):
         #if target picked, play firing animation
         if self.target:
             self.play_animation()
         else:
             #search for new target once turret has cooled down
-            if pg.time.get_ticks() - self.last_shot > self.cooldown:
+            if pg.time.get_ticks() - self.last_shot > (self.cooldown / world.game_speed):
                 self.pick_target(enemy_group)
 
     def pick_target(self, enemy_group):
@@ -77,7 +79,7 @@ class Turret(pg.sprite.Sprite):
                     self.target = enemy
                     self.angle = math.degrees(math.atan2(-y_dist, x_dist))
                     # Damage enemy
-                    self.target.health -= c.DAMAGE
+                    self.target.health -= self.damage
                     break
 
     def play_animation(self):
@@ -97,6 +99,8 @@ class Turret(pg.sprite.Sprite):
         self.upgrade_level += 1
         self.range = TURRET_DATA[self.upgrade_level - 1].get("range")
         self.cooldown = TURRET_DATA[self.upgrade_level - 1].get("cooldown")
+        self.damage = TURRET_DATA[self.upgrade_level - 1].get("damage")
+        self.upgrade_cost = TURRET_DATA[self.upgrade_level - 1].get("upgrade_cost")
         # Upgrade turret image
         self.animations_list = self.load_images(self.sprite_sheets[self.upgrade_level - 1])
         self.original_image = self.animations_list[self.frame_index]
